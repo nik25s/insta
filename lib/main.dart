@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:insta/responsive/mobile_screen_layout.dart';
+import 'package:insta/responsive/responsive_layout_screen.dart';
+import 'package:insta/responsive/web_screen_layout.dart';
 import 'package:insta/utils/colors.dart';
 
 void main() {
@@ -12,15 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Instagram Clone',
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-      home: Scaffold(
-          body: Text(
-        'lets build instagram',
-        style: TextStyle(color: Colors.white),
-      )), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Instagram Clone',
+        theme: ThemeData.dark()
+            .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
+        home: const ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout()));
   }
 }
