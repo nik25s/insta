@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:insta/resources/auth_methods.dart';
 import 'package:insta/utils/colors.dart';
 import 'package:insta/widgets/text_field_input.dart';
+
+import '../utils/pick_image.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,11 +15,28 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+
+    if (res == "success") {
+    } else {
+      showSnackBar(res, context);
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -53,9 +73,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         isPass: true),
                     const SizedBox(height: 24),
                     InkWell(
-                      onTap: (() {}),
+                      onTap: loginUser,
                       child: Container(
-                        child: const Text('Log in'),
+                        child: _isLoading
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                    color: primaryColor))
+                            : const Text('Log in'),
                         width: double.infinity,
                         alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -76,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          child: Text("Don't have an account"),
+                          child: Text("Don't have an account?"),
                           padding: const EdgeInsets.symmetric(vertical: 8),
                         ),
                         GestureDetector(
