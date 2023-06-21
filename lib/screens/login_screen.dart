@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:insta/resources/auth_methods.dart';
+import 'package:insta/responsive/mobile_screen_layout.dart';
+import 'package:insta/screens/signup_screen.dart';
 import 'package:insta/utils/colors.dart';
 import 'package:insta/widgets/text_field_input.dart';
 
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 import '../utils/pick_image.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -31,12 +35,21 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text, password: _passwordController.text);
 
     if (res == "success") {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: ((context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: MobileScreenLayout()))));
     } else {
       showSnackBar(res, context);
     }
     setState(() {
       _isLoading = false;
     });
+  }
+
+  void navigateToSignup() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SignupScreen()));
   }
 
   @override
@@ -104,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: const EdgeInsets.symmetric(vertical: 8),
                         ),
                         GestureDetector(
-                          onTap: (() {}),
+                          onTap: navigateToSignup,
                           child: Container(
                             child: Text(
                               "Sign up",

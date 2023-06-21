@@ -34,14 +34,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Instagram Clone',
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-      // home: const ResponsiveLayout(
-      //     webScreenLayout: WebScreenLayout(),
-      //     mobileScreenLayout: MobileScreenLayout())
-      home: LoginScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Instagram Clone',
+        theme: ThemeData.dark()
+            .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return const ResponsiveLayout(
+                    webScreenLayout: WebScreenLayout(),
+                    mobileScreenLayout: MobileScreenLayout());
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              }
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: primaryColor,
+                ),
+              );
+            }
+            return const LoginScreen();
+          },
+        ));
   }
 }
