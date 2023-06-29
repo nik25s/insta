@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:insta/providers/user_provider.dart';
+import 'package:insta/models/user.dart';
 import 'package:insta/resources/firestore_methods.dart';
 import 'package:insta/utils/colors.dart';
+import 'package:insta/utils/pick_image.dart';
 import 'package:insta/widgets/comment_card.dart';
 import 'package:provider/provider.dart';
 
@@ -50,9 +52,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
             );
           }
           return ListView.builder(
-              itemCount: (snapshot.data! as dynamic).docs.length,
-              itemBuilder: ((context, index) => CommentCard(
-                  snap: (snapshot.data! as dynamic).docs[Index].data)));
+            itemCount: (snapshot.data! as dynamic).docs.length,
+            itemBuilder: ((context, index) =>
+                CommentCard(snap: snapshot.data!.docs[index])),
+          );
         },
       ),
       bottomNavigationBar: SafeArea(

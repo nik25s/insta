@@ -3,6 +3,7 @@ import 'package:insta/resources/auth_methods.dart';
 import 'package:insta/responsive/mobile_screen_layout.dart';
 import 'package:insta/screens/signup_screen.dart';
 import 'package:insta/utils/colors.dart';
+import 'package:insta/utils/global_variables.dart';
 import 'package:insta/widgets/text_field_input.dart';
 
 import '../responsive/responsive_layout_screen.dart';
@@ -57,7 +58,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
         body: SafeArea(
             child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
+                padding: MediaQuery.of(context).size.width > webScreenSize
+                    ? EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 3)
+                    : const EdgeInsets.symmetric(horizontal: 32),
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

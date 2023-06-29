@@ -1,4 +1,4 @@
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +6,7 @@ import 'package:insta/providers/user_provider.dart';
 import 'package:insta/resources/firestore_methods.dart';
 import 'package:insta/screens/comment_screen.dart';
 import 'package:insta/utils/colors.dart';
+import 'package:insta/utils/global_variables.dart';
 import 'package:insta/utils/pick_image.dart';
 import 'package:insta/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -48,8 +49,14 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
+    final width = MediaQuery.of(context).size.width;
     return Container(
-      color: mobileBackgroundColor,
+      // boundary needed for web
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: width > webScreenSize
+                  ? secondaryColor
+                  : mobileBackgroundColor)),
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
